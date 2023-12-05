@@ -1,0 +1,14 @@
+*.o
+*.a
+*.so
+a.out
+*~
+\#*\#
+vgcore.*
+*.gcno
+*.gcda
+unit_tests
+.vscode/*
+.vscode
+my_sokoban
+.idea
