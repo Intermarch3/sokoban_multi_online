@@ -1,0 +1,61 @@
+name: checker
+on: push
+env:
+  EXECUTABLES: ./my_sokoban
+
+jobs:
+  check_coding_style:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          check.sh $(pwd) $(pwd)
+          if [[ -s coding-style-reports.log ]]; then
+           if [[ $(wc -l < coding-style-reports.log) -eq 1 && $(head -n 1 coding-style-reports.log) == "./Makefile:32: illegal token in column 36, giving up (hint: fix the file or remove it from the working set)" ]]; then
+            exit 0
+           fi
+           file="coding-style-reports.log"
+           while IFS= read -r line
+             do
+             filename=$(echo $line | cut -f1 -d:)
+             line_nb=$(echo $line | cut -f2 -d:)
+             flag=$(echo $line | cut -f3 -d:)
+             flag2="$flag"" coding style error"
+             errortype=$(echo $line | cut -f4 -d:)
+             echo "::error file=$filename,line=$line_nb,title=$flag2:: $errortype"
+             done < "$file"
+           exit 1
+          fi
+  checks:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker:latest
+
+    strategy:
+      matrix:
+        check: [program_compilation]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build project
+        if: matrix.check == 'program_compilation'
+        run: make
+        timeout-minutes: 3
+
+      - name: Clean project
+        if: matrix.check == 'program_compilation'
+        run: make clean
+
+      - name: Check executables
+        if: matrix.check == 'program_compilation'
+        run: |
+          for exe in $EXECUTABLES; do
+            if [ ! -x "$exe" ]; then
+              echo "Executable '$exe' not found or not executable"
+              exit 1
+            fi
+          done
