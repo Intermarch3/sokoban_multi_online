@@ -25,7 +25,15 @@ void *handle_render(void *arg)
     use_window(multiplayer->w_game2,
     (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
     while (1) {
-        recv(multiplayer->socket, buffer, 1024, 0);
+        ssize_t n = recv(multiplayer->socket, buffer, 1024, 0);
+        if (n == 0) {
+            printf("Client disconnected\n");
+            close(multiplayer->socket);
+            return NULL;
+        } else if (n == -1) {
+            perror("recv");
+            return NULL;
+        }
         update(multiplayer->game2, buffer);
         use_window(multiplayer->w_game2,
         (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
