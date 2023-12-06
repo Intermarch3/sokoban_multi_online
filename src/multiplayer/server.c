@@ -23,7 +23,7 @@ void *handle_render(void *arg)
     use_window(multiplayer->w_game2,
     (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
     while (1) {
-        read(multiplayer->socket, buffer, 1024);
+        recv(multiplayer->socket, buffer, 1024, 0);
         update(multiplayer->game2, buffer[0]);
         use_window(multiplayer->w_game2,
         (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);

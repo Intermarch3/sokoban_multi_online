@@ -85,7 +85,7 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
         }
         send(new_socket, &key, 1, 0);
     }
-
+    close(new_socket);
     endwin();
     win = game_infos->win;
     free_game(game_infos);
