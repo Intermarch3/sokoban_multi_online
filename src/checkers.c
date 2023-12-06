@@ -21,14 +21,19 @@ int verif_map_file(char *path)
 
 char *verif_params(int ac, char **av)
 {
-    if (ac != 2)
-        exit(84);
-    if (av[1][0] == '-' && av[1][1] == 'h' && av[1][2] == '\0') {
-        my_putstr("USAGE\n\t./my_sokoban map\nDESCRIPTION\n");
+    if (ac == 2 && av[1][0] == '-' && av[1][1] == 'h' && av[1][2] == '\0') {
+        my_putstr("USAGE\n\t./my_sokoban map [c/s] (client or server)\nDESCRIPTION\n");
         my_putstr("\tmap  file representing the warehousemap,");
         my_putstr(" containing'#' for walls,\n\t\t'P' for the player,");
         my_putstr(" 'X' for the boxes and 'O' for the storage locations.");
     }
+
+    if (ac != 3)
+        exit(84);
+
+    if (av[2][0] != 's' && av[2][0] != 'c')
+        exit(84);
+
     return av[1];
 }
 

@@ -48,7 +48,6 @@ void winnable(my_game_info *game_infos)
 
 void update(my_game_info *game_infos, int key)
 {
-    getmaxyx(stdscr, game_infos->row, game_infos->col);
     if (key == 68) {
         player_move_x(game_infos, -1);
     }
@@ -63,4 +62,5 @@ void update(my_game_info *game_infos, int key)
     }
     win_game(game_infos);
     winnable(game_infos);
+
 }

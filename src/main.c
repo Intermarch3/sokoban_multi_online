@@ -14,7 +14,7 @@ int main(int ac, char **av)
     char *path = verif_params(ac, av);
     int buffer_size = verif_map_file(path);
     char **map = get_map(path, buffer_size, &nb_row, &nb_col);
-
-    game(map, nb_row, nb_col);
+    char **map2 = get_map(path, buffer_size, &nb_row, &nb_col);
+    game(map, map2, nb_row, nb_col, av[2][0]);
     return 0;
 }

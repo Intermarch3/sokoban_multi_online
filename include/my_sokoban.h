@@ -50,16 +50,26 @@ struct my_game_info {
 
 typedef struct my_game_info my_game_info;
 
+struct multiplayer {
+    my_game_info *game1;
+    my_game_info *game2;
+    WINDOW *w_game1, *w_game2;
+    int socket;
+    char mode;
+};
+
+typedef struct multiplayer multiplayer_s;
+
 char *verif_params(int ac, char **av);
 int verif_map_file(char *path);
 void *my_memset(void *ptr, char c, long nb_bytes);
 char **get_map(char *path, int buffer_size, int *nb_row, int *nb_col);
 void my_putstr(char *str);
 void free_game(my_game_info *game_infos);
-void game(char **map, int nb_row, int nb_col);
+void game(char **map, char **map2, int nb_row, int nb_col, char mode);
 int check_screen_size(my_game_info *game_infos);
 void update(my_game_info *game_infos, int key);
-void draw(my_game_info *game_infos);
+void draw(WINDOW *window, my_game_info *game);
 void save_box_pos(my_game_info *game_infos);
 void save_storage_pos(my_game_info *game_infos);
 void save_player_pos(my_game_info *game_infos);
@@ -71,5 +81,12 @@ int is_storage(my_game_info *game_infos, int x, int y);
 int not_movable(my_game_info *game_infos, my_box *box);
 my_box *get_box(my_game_info *game_infos, int x, int y);
 void check_map_walls(my_game_info *game_infos);
+
+
+//MULTIPLAYER
+
+int handle_client();
+int handle_server();
+void *render_thread(multiplayer_s *multiplayer);
 
 #endif /* !MY_SOKOBAN_H_ */

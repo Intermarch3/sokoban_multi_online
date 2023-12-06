@@ -11,6 +11,8 @@ LDFLAGS           := -g3 -lncurses
 EXECUTABLE        := my_sokoban
 
 SOURCES_FILES     := $(wildcard src/*.c)
+SOURCES_FILES += $(wildcard src/multiplayer/*.c)
+
 OBJECTS_FILES     := $(SOURCES_FILES:.c=.o)
 
 all: $(SOURCES_FILES) $(EXECUTABLE)

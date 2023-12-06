@@ -7,52 +7,44 @@
 
 #include "../include/my_sokoban.h"
 
-void draw_player(my_game_info *game_infos)
+void draw_player(my_game_info *game, WINDOW *window)
 {
-    mvprintw(((game_infos->row / 2) - (game_infos->nb_row / 2)) +
-        game_infos->player->y, (game_infos->col / 2) -
-        (game_infos->nb_col / 2) + game_infos->player->x, "P");
+    mvwprintw(window, game->player->y, game->player->x, "P");
 }
 
-void draw_box(my_game_info *game_infos)
+void draw_box(my_game_info *game, WINDOW *window)
 {
-    for (int i = 0; game_infos->box_ls[i] != NULL; i++) {
-        mvprintw(((game_infos->row / 2) - (game_infos->nb_row / 2)) +
-            game_infos->box_ls[i]->y, (game_infos->col / 2) -
-            (game_infos->nb_col / 2) + game_infos->box_ls[i]->x, "X");
+    for (int i = 0; game->box_ls[i] != NULL; i++) {
+        mvwprintw(window, game->box_ls[i]->y, game->box_ls[i]->x, "X");
     }
 }
 
-void draw_storage(my_game_info *game_infos)
+void draw_storage(my_game_info *game, WINDOW *window)
 {
-    for (int i = 0; game_infos->storage_ls[i] != NULL; i++) {
-        mvprintw(((game_infos->row / 2) - (game_infos->nb_row / 2)) +
-            game_infos->storage_ls[i]->y, (game_infos->col / 2) -
-            (game_infos->nb_col / 2) + game_infos->storage_ls[i]->x, "O");
+    for (int i = 0; game->storage_ls[i] != NULL; i++) {
+        mvwprintw(window, game->storage_ls[i]->y, game->storage_ls[i]->x, "O");
     }
 }
 
-void draw_map(my_game_info *game_infos)
+void draw_map(my_game_info *game, WINDOW *window)
 {
-    for (int i = 0; i < game_infos->nb_row; i++) {
-        mvprintw(((game_infos->row / 2) - (game_infos->nb_row / 2)) + i,
-            (game_infos->col / 2) - (game_infos->nb_col / 2),
-            "%s", game_infos->map[i]);
+    for (int i = 0; i < game->nb_row; i++) {
+        mvwprintw(window, i, 0, "%s", game->map[i]);
     }
 }
 
-void draw(my_game_info *game_infos)
+void draw(WINDOW *window, my_game_info *game)
 {
-    clear();
-    if (check_screen_size(game_infos) == 0) {
-        mvprintw(game_infos->row / 2, (game_infos->col - 20) / 2, "%s",
-            "window too small !!!");
-    } else {
-        draw_map(game_infos);
-        draw_storage(game_infos);
-        draw_box(game_infos);
-        draw_player(game_infos);
-        mvprintw(0, 0, " ");
-    }
-    refresh();
+    wclear(window);
+    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+    draw_map(game, window);
+    draw_storage(game, window);
+    draw_box(game, window);
+    draw_player(game, window);
+    wrefresh(window);
 }
+
+//char my_wgetch(WINDOW *window, void *data)
+//{
+//
+//}
