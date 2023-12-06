@@ -68,7 +68,7 @@ void my_putstr(char *str);
 void free_game(my_game_info *game_infos);
 void game(char **map, char **map2, int nb_row, int nb_col, char mode);
 int check_screen_size(my_game_info *game_infos);
-void update(my_game_info *game_infos, int key);
+void update(my_game_info *game_infos, char *key);
 void draw(WINDOW *window, my_game_info *game);
 void save_box_pos(my_game_info *game_infos);
 void save_storage_pos(my_game_info *game_infos);

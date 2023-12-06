@@ -46,18 +46,18 @@ void winnable(my_game_info *game_infos)
         game_infos->winnable = 0;
 }
 
-void update(my_game_info *game_infos, int key)
+void update(my_game_info *game_infos, char *key)
 {
-    if (key == 68) {
+    if (*key == 68) {
         player_move_x(game_infos, -1);
     }
-    if (key == 67) {
+    if (*key == 67) {
         player_move_x(game_infos, 1);
     }
-    if (key == 65) {
+    if (*key == 65) {
         player_move_y(game_infos, -1);
     }
-    if (key == 66) {
+    if (*key == 66) {
         player_move_y(game_infos, 1);
     }
     win_game(game_infos);

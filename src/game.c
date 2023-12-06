@@ -35,7 +35,10 @@ void my_getch_wrapper(WINDOW *window, char *key)
 void game(char **map, char **map2, int nb_row, int nb_col, char mode)
 {
     int win;
-    char key = '\0';
+    //char key = '\0';
+    char key[10] = {0};
+    key[1] = '\n';
+    key[2] = '\0';
     int new_socket;
 
     multiplayer_s *multiplayer = (multiplayer_s *) malloc(sizeof(multiplayer_s));
@@ -83,7 +86,7 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
             use_window(multiplayer->w_game1,
                 (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
         }
-        send(new_socket, &key, 1, 0);
+        send(new_socket, &key, 3, 0);
     }
     close(new_socket);
     endwin();
