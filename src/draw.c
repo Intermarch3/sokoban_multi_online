@@ -36,7 +36,7 @@ void draw_map(my_game_info *game, WINDOW *window)
 void draw(WINDOW *window, my_game_info *game)
 {
     werase(window);
-    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+    //wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
     draw_map(game, window);
     draw_storage(game, window);
     draw_box(game, window);

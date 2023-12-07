@@ -35,8 +35,10 @@ void my_getch_wrapper(WINDOW *window, char *key)
 void game(char **map, char **map2, int nb_row, int nb_col, char mode)
 {
     int win;
+    size_t n = 0;
+
     //char key = '\0';
-    char key[1024] = {0};
+    char key[5] = {0};
     key[1] = '\n';
     key[2] = '\0';
     int new_socket;
@@ -55,24 +57,24 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
     curs_set(FALSE);
     noecho();
 
-    int parent_x, parent_y, new_x, new_y;
+    int parent_x, parent_y;
     getmaxyx(stdscr, parent_y, parent_x);
 
     multiplayer->w_game1 = newwin(parent_y / 2, parent_x, 0, 0);
-    multiplayer->w_game2 = newwin(parent_y / 2, parent_x, parent_y / 2, 0);
+    multiplayer->w_game2 = newwin(parent_y / 2, parent_x, (parent_y / 2) + 1, 0);
 
     // CONNECTION INITIALE
     if (multiplayer->mode == 's') {
         new_socket = handle_server();
-        render_thread(multiplayer);
     }
 
     if (multiplayer->mode == 'c') {
         new_socket = handle_client();
-        render_thread(multiplayer);
     }
 
     multiplayer->socket = new_socket;
+
+    render_thread(multiplayer);
 
     //char buffer[1024] = {0};
     //read(new_socket, buffer, 1024);
@@ -88,12 +90,13 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
         if (game_infos->win == 0 && game_infos->winnable == 1) {
             use_window(multiplayer->w_game1,
                 (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
+            n = send(new_socket, &key, 5, 0);
         }
-        size_t n = send(new_socket, &key, 1024, 0);
         if (n == -1) {
             break;
         }
     }
+
     close(new_socket);
     endwin();
     win = game_infos->win;
