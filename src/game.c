@@ -89,14 +89,14 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
 
     while (game_infos->winnable && !game_infos->win) {
         update(game_infos, key);
-        //use_window(multiplayer->w_game1, (NCURSES_WINDOW_CB) draw, multiplayer->game1);
-        //use_window(multiplayer->w_game2, (NCURSES_WINDOW_CB) draw, multiplayer->game2);
-        draw(multiplayer->w_game1, multiplayer->game1);
-        draw(multiplayer->w_game2, multiplayer->game2);
+        use_window(multiplayer->w_game1, (NCURSES_WINDOW_CB) draw, multiplayer->game1);
+        use_window(multiplayer->w_game2, (NCURSES_WINDOW_CB) draw, multiplayer->game2);
+        //draw(multiplayer->w_game1, multiplayer->game1);
+        //draw(multiplayer->w_game2, multiplayer->game2);
         if (game_infos->win == 0 && game_infos->winnable == 1) {
-            //use_window(multiplayer->w_game1,
-            //    (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
-            *key = wgetch(multiplayer->w_game1);
+            use_window(multiplayer->w_game1,
+                (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
+            //*key = wgetch(multiplayer->w_game1);
         }
         if (*key != ERR) {
             n = send(new_socket, &key, 5, 0);
