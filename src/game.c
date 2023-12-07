@@ -97,6 +97,8 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
             //use_window(multiplayer->w_game1,
             //    (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
             *key = wgetch(multiplayer->w_game1);
+        }
+        if (*key != ERR) {
             n = send(new_socket, &key, 5, 0);
         }
         if (n == -1) {
