@@ -55,8 +55,11 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
     curs_set(FALSE);
     noecho();
 
-    multiplayer->w_game1 = subwin(stdscr, LINES / 2, COLS, 0, 0);
-    multiplayer->w_game2 = subwin(stdscr, LINES / 2, COLS, LINES / 2, 0);
+    int parent_x, parent_y, new_x, new_y;
+    getmaxyx(stdscr, parent_y, parent_x);
+
+    multiplayer->w_game1 = newwin(parent_y / 2, parent_x, 0, 0);
+    multiplayer->w_game2 = newwin(parent_y / 2, parent_x, parent_y / 2, 0);
 
     // CONNECTION INITIALE
     if (multiplayer->mode == 's') {
