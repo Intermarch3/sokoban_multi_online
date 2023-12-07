@@ -22,17 +22,17 @@ void *handle_render(void *arg)
     buffer[1] = '\n';
     buffer[2] = '\0';
 
-    usleep(1000);
+    //usleep(1000);
 
-    use_window(multiplayer->w_game2,
-    (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
+    //use_window(multiplayer->w_game2,
+    //(NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
     //my_mvwprintw_wrapper(w)
     while (1) {
         ssize_t n = recv(multiplayer->socket, buffer, 5, 0);
         if (n == 0) {
-            clear();
-            wprintw(multiplayer->w_game2, "Client disconnected, exiting....");
-            wrefresh(multiplayer->w_game2);
+            //clear();
+            //wprintw(multiplayer->w_game2, "Client disconnected, exiting....");
+            //wrefresh(multiplayer->w_game2);
             close(multiplayer->socket);
             return NULL;
         } else if (n == -1) {
@@ -40,8 +40,8 @@ void *handle_render(void *arg)
             return NULL;
         }
         update(multiplayer->game2, buffer);
-        use_window(multiplayer->w_game2,
-        (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
+        //use_window(multiplayer->w_game2,
+        //(NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
     }
 }
 
