@@ -80,19 +80,16 @@ void game(char **map, char **map2, int nb_row, int nb_col, char mode)
     //close(new_socket);
 
     while (game_infos->winnable && !game_infos->win) {
-        char tmp;
-        if (recv(new_socket, &tmp, 1, MSG_PEEK) == 0) {
-            printf("La connexion a été fermée par l'autre côté\n");
-            break;
-        }
-
         update(game_infos, key);
         use_window(multiplayer->w_game1, (NCURSES_WINDOW_CB) draw, multiplayer->game1);
         if (game_infos->win == 0 && game_infos->winnable == 1) {
             use_window(multiplayer->w_game1,
                 (NCURSES_WINDOW_CB) my_getch_wrapper, &key);
         }
-        send(new_socket, &key, 1024, 0);
+        size_t n = send(new_socket, &key, 1024, 0);
+        if (n == -1) {
+            break;
+        }
     }
     close(new_socket);
     endwin();

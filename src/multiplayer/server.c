@@ -20,14 +20,16 @@ void *handle_render(void *arg)
     char buffer[1024] = {0};
     buffer[1] = '\n';
     buffer[2] = '\0';
-    //usleep(100);
+    usleep(1000);
     multiplayer_s *multiplayer = (multiplayer_s *)arg;
     use_window(multiplayer->w_game2,
     (NCURSES_WINDOW_CB) my_mvwprintw_wrapper, multiplayer);
     while (1) {
         ssize_t n = recv(multiplayer->socket, buffer, 1024, 0);
         if (n == 0) {
-            printf("Client disconnected\n");
+            clear();
+            wprintw(multiplayer->w_game2, "Client disconnected, exiting....");
+            refresh();
             close(multiplayer->socket);
             return NULL;
         } else if (n == -1) {
